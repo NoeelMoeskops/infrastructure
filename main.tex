@@ -1,0 +1,33 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\input{var}
+
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+
+\graphicspath{ {assets/} }
+
+
+\pagestyle{fancy}
+\fancyhead[RE,LO]{\noe}
+
+\begin{document}
+	
+	\title{\titel}
+	\author{\noe}
+	\date{\today}
+	\maketitle
+	\pagebreak
+	
+	\tableofcontents
+	\pagebreak
+	
+	\include{inleiding}
+	\include{hoofdstukken/een}
+	\include{hoofdstukken/twee}
+%	\include{hoofdstukken/drie}
+\end{document}
+ 
