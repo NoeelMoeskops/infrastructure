@@ -6,9 +6,9 @@ Het principe van netwerk layers is dat je je maar meestal zorgen hoeft te maken 
 \subsubsection{Network Application Architectures}
 Er zijn twee verschillende application netwerk architecturen; \textbf{P2P} (peer-to-peer) en \textbf{client-server} architectuur. Je bent niet gelimiteerd aan deze twee architecturen maar het zijn de enige die op dit moment bestaan. (je kan zelf iets nieuws verzinnen als je genoeg vrije tijd hebt).
 
-\paragraph{client-server}
+\subsubsection*{client-server}
 Een client-server is de meest simpele en meest traditionele architectuur. Het gebruikt twee system een \textit{client} en \textit{server} De server moet op een statische plek staan en 24/7 beschikbaar zijn. De client daarin tegen kan dynamiche zijn (van IP verwisselen) en uit en aan gaan wanneer gewenst. De server neemt geen dienst af van de client.
-\paragraph{Peer-to-peer}
+\subsubsection*{Peer-to-peer}
 Een peer-to-peer verbinding word onder anderen gebruikt bij Torrents en video gesprekken. De verbinding word onderling gedaan zonder centrale server. Dit systeem schaalt ook veel beter omdat wanneer iedereen een bestand wilt downloaden het ook door meer mensen word geupload.
 
 \subsubsection{Processes Communicating}
@@ -18,3 +18,94 @@ Wanneer een \textbf{process} wilt communiceren met een ander process op het Inte
 
 
 \subsection{The Web and HTTP}
+Tot 1990 werd het internet grotendeels door onderzoekers en scholieren gebruikt. Weinig mensen wisten er nog van. Later in 1994 werd de eerste webbrowser ontwikkeld en daardoor werd het internet onder de het normale volk ook ontamd.
+
+
+\subsubsection{Overview of HTTP}
+\textbf{Hyper Text Transer Protocol (HTTP)} word gebruikt om documenten (objecten) over het internet te versturen. Wanneer een object (index.html) verwijst naar een ander object (favicon.ico) word deze ook opgehaald. HTTP maakt gebruik van TCP en word beschouwd als een \textbf{stateless protocol} dat houd in dat de server geen data bijhoud van haar clients. Wanneer een client 4x hetzelfde bestand zou aanvragen zal de http server de 4e aanvraag hetzelfde behandelen als de eerste.
+
+\subsubsection{Non-Persistent and Persistent Connections}
+
+HTTP kent twee soorten verbindingen: Non-Persistent en Persistent.
+\subsubsection*{Non-Persistent}
+Wanneer een client een object aanvraagt van een HTTP server gaan ze eerste een \textbf{three-way-handshake} doen. De client vraagt aan de server om een TCP verbinden optestellen en de server antwoord vervolgends met \textit{OK}. Daarna vraagt de client een object aan (bijv. \textit{/mydir/index.html}) De server antwoord dan met het bestand \textit{index.html} en de verbinden word verbroken.
+\newline
+
+De client leest het bestand en ziet dat hij nog 10 plaatjes moet laden. Hij gaat dan weer een three-way-handshake doen en het hele verhaal begint weer opnieuw.
+
+\subsubsection*{Round-Trip Time (RTT)}
+RTT is het het tijd wat het duurt voor een pakketje heen en terug te sturen van client naar een server. Propegation delay heen en terug.
+In het vorige voorbeeld zijn er twee RTT. De eerste is wanneer de client connectie aanvraagt aan de server en antwoord krijgt. De twee is het bestand wat hij vraagt en ook krijgt van de server. Voor elke extra object krijg je bij een non-persisten verbinding \textbf{2} RTT's (een om verbinden vast te leggen, en een om het bestand te krijgen.)
+
+\subsubsection*{Persistent}
+Een persistent verbinden is veel zuiniger met data dan een Non-persistent verbinden. Want het houd de TCP connectie open tot een bepaalde timeout tijd. Dus in ons voorbeeld met 1 html pagina en 10 plaatjes heb je dus maar 12 RTT's op een persistent verbinding 
+(1 RTT voor TCP verbinden + html bestand + (plaatje * 10)) In plaatjs van 11 * 2 = 22 RTT's bij een Non-persistent verbinding.
+
+\subsubsection{HTTP Message Format}
+Er zijn twee verschillende HTTP bericht formaten, een request en een response. Hieronder volgt een voorbeeld van een request:
+\newline
+\texttt{GET /tools/index.html HTTP/1.1\newline
+		Host: 			www.noeel.nl\newline
+		Connection: 	close\newline
+		User-agent: 	Mozilla/5.0\newline
+		Accept-language: nl\newline
+	}
+
+De request is geschreven in ASCII. De eerste zin is de \textbf{request line} de lijnen die daarop volgen zijn de \textbf{header lines}. Daarna komt er een wit-regel gevolgt door de \textbf{Entity body} maar die is nu leeg omdat het een request is en geen response of \texttt{POST}
+\newline
+\subsubsection*{Request line}
+De request kan bestaan uit een \texttt{GET, POST, HEAD, PUT} of \texttt{DELETE}
+
+\texttt{GET} request een bestand, \texttt{POST} stuur data naar een server (de content staat dan in de body)
+\texttt{HEAD} voor debugging, vraag alleen de head van een response op. \texttt{PUT} plaats een bestand en \texttt{DELETE} verwijder een bestand.
+Het word daarna gevolgt door de locatie en de HTTP versie.
+
+\subsubsection*{Header lines}
+\texttt{Host:} verklaard de host waar de request naar toe moet gaan, is nodig voor proxy's
+\texttt{Connection:} of het een persistant (\texttt{open}) of non-persistant (\texttt{close}).
+Data zoals \texttt{User-agent} en \texttt{Accept-language} worden gebruikt om verschillende data weer te geven per taal/browser.
+
+\subsubsection*{HTTP Response}
+\texttt{HTTP/1.1 200 OK \newline
+		Connection: close \newline
+		Date: Tue, 18 Aug 2015 15:44:04 GMT \newline
+		Server: Apache/2.2.3 (CentOS) \newline
+		Last-Modified: Tue, 18 Aug 2015 05:44:04 GMT \newline
+		Content-Lenght: 6532 \newline
+		Content-Type: text/html \newline \newline
+		data data data .... }
+\newline
+In de Status line staat de HTTP versie gevolgt door de statis code en statis zin. (200 betekent dat alles goed is) \texttt{Connection: close} betekent dat de server de TCP verbinding zal sluiten hierna. \texttt{Date} De datum en tijd dat de server het bestand van het file system heeft gekregen. \texttt{Server:} Allemaal server data, welke http server hij draaid, welke versie en welk OS. \texttt{Last-Modified:} handig voor caching enzo. \texttt{Content-Lenght} hoelang is de data en \texttt{Content-Type} wat voor soort data het is.
+
+\subsubsection{User-Server Interaction: Cookies}
+Omdat HTTP stateless is weet de server niet of de client vaker gebruikt maakt van zijn diensten. Daarom bestaan er Cookies, een Cookie is een string die de server kan zetten met de HTTP header: \texttt{Set-cookie: myCookieValue} Wanneer de client een nieuwe request maakt naar dezelfde server stuurt hij altijd in zijn HTTP header (\texttt{Cookie: myCookieValue}) zodat de server dit kan processen en client speceviek diensten aan kan bieden.
+
+
+\subsubsection{Web Caching}
+Je kan ook een caching server hebben. Dit is een server dat een kopie maakt van een bestaande server en dit op een andre plek host. Dit kan handig zijn als de normale server een hoge ping heeft en dus een lage response tijd heeft. Om de caching server te berijken moet je zelf in je browser (of andere applicatie) instellen dat je met de caching server verbinding wilt maken inplaats van de bestaande server.
+\newline
+Wanneer je een HTTP GET request stuurt naar een caching server kijkt hij of hij het bestand heeft en stuurt deze dan naar jou toe. Wanneer het bestand ontbreekt vraagt hij het zelf op bij de orginele server en stuurt het dan naar jou toe en slaat het ook meteen op.
+\subsubsection*{Conditional GET}
+Het grote nadeel van een caching server is dat hij een out-of-date bestand kan hosten. Om dat te voorkomen checked een caching server eens in de paar weken of er geen nieuwer bestand bestaat. Dat gaat omgeveer zo:
+/newline
+Eerst vraagt de caching server het orginele bestand aan \newline
+\texttt{GET /img/logo.png HTTP/1.1 \newline
+		Host: www.mylogoImages.com \newline \newline
+	}
+De orginele server geeft een respone: \newline
+\texttt{HTTP/1.1 200 OK \newline
+		Date: Sat, 3 Oct 2015 15:39:29 \newline
+		Server: Apache/1.3.0 (Unix) \newline
+		Last-Modified: Wed, 9 Sep 2015 09:23:24 \newline
+		Content-Type: image/png \newline \newline
+		data data data ... \newline}
+Wanneer er een bepaalde tijd voorbij is en de caching server is bang dat zijn bestand out-of-date is checkt hij bij de server of er een nieuwere versie beschikbaar is: \newline
+\texttt{GET /img/logo.png HTTP/1.1 \newline
+	Host: www.mylogoImages.com \newline
+	If-modified-since: Wed, 9 Sep 2015 09:23:24 \newline \newline
+}
+Wanneer er geen nieuwe versie is beantwoord de server met een $304$: \newline
+\texttt{HTTP/1.1 304 Not Modified \newline
+	Date: Sat, 10 Oct 2015 15:39:29 \newline
+	Server: Apache/1.3.0 (Unix) \newline}
+	
