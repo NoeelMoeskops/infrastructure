@@ -120,6 +120,46 @@ E-mail bestaat uit drie delen: \textbf{user agents} (het client programma op het
 \subsubsection{Mail Access Protocols}
 
 \subsection{DNS-The Internet's Directory Service}
-Word niet behandeld in dit boek. Kan je lezen op pagina 154 van Computer Networking
+Servers hebben vaak twee adresssen waarmee je met ze kan verbinden: hostname \textit{www.noeel.nl} en het ip adress \textit{185.182.56.20}. Computers willen met het ip addres verbinden omdat dat ook echt iets betekent. Maar voor mensen is dat moeilijk te onthouden. Daarom bestaan er hostnamen die verwijzen naar het ip-adres zodat je die in kan typen in je webbrowser.
+\subsubsection{Services Provided by DNS}
+Wanneer jij verbinding wil maken met een hostname verstuurd je computer een verzoek naar een DNS server om het ip addres op te zoeken van de hostname. De DNS server geeft dan het ipaddres en je kan verbinding maken.
+\newline
+Een DNS server bied een aantal services:
+\paragraph{Host aliasing}
+Een sub domain (\textit{sub1.sub2.domain.org}) word een \textbf{canonical hostname} genoemd deze verwijzen naar \textit{www.domain.org} of \textit{domain.org}
+\paragraph{Mail server aliasing}
+Je kan van elk domain naam ook een MX-record opvragen, dit is het addres van de mail server.
+\paragraph{load distribution}
+Je kan ook meerdere records van een soort (MX,A etc.) opgeven bij een DNS server. Hij kiest er dan per request een random uit zodat niet een server van je word belast.
 
+\subsubsection{Overview of How DNS Works}
+Er bestaan 4 verschillende DNS servers:
+\paragraph{Root DNS servers}
+Dit zijn servers die alleen een lijst hebben met TLD DNS servers. Wanneer jij een request maakt naar \textit{www.google.nl} verwijst deze server je door naar een NL TLD DNS server
+\paragraph{Top-Level domain server}
+elk top-level domein naam (nl, com, org, de etc.) heeft haar eigen TLD DNS server. In deze server staan alle \textbf{Authoritative DNS servers} van elk domain naam onder dat TLD. Wanneer je een request doet voor het ip van google.nl geeft hij je de Authoritative DNS servers van google.nl.
+\paragraph{Authoritative DNS servers}
+Dit zijn de DNS servers die ook daatwerkelijk het antwoord voor je hebben. deze hebben alle records van een domain naam en geven je ook het ipaddres van je bestemming.
+\paragraph{local DNS server}
+Dit zijn vaak DNS servers van je ISP (Ziggo bijv.) Deze hebben een lijst van alle Root DNS servers en vragen aan hen het ip addres van je request. Hier maak jij dus ook verbinding mee.
+\newline
+\subsubsection*{DNS request}
+Wanneer jij een vraag naar een DNS server doet voor het ophalen van een ip address kan dat op twee verschillende manier gaan.
+\paragraph{Various DNS servers}
+\begin{itemize}
+	\item Een eind-systeem maakt doet een DNS request voor \textit{www.noeel.nl} naar een locale DNS server
+	\item locale server doet een request naar de root server
+	\item de root server leest het \textit{.nl} gedeelte en returnt een adres van een NL TDL DNS server
+	\item de locale server ontvangt de request en stuurt een DNS request voor \textit{www.noeel.nl} naar de NL TDL DNS server\
+	\item de TLD server leest het bericht en returnt de authoritative DNS server voor noeel.nl
+	\item de local server stuurt een bericht naar de authoritative DNS server en krijgt de record die hij verwachte
+	\item de local server stuurt het ip-adres door naar het eind-systeem dat het eerder aanvroeg.
+	\item profit!
+\end{itemize}
+\paragraph{Recursive queries in DNS}
+Dit werkt op een anderen manier als de varios DNS server variant. inplaats van dat de server steeds een adres returned van een ander DNS server gaat hij zelf vragen aan die server vor het adres. Maar dit komt minder vaak voor.
+\newline
+\newline
+DNS servers cashen ook al hun resultaten om verkeer te verminderen, en om sneller te zijn. Meestal word iets voor 2 dagen gecached. Maar als web-host kan je dit ook korter of langer instellen.
+\subsubsection{DNS Records and Messages}
 \subsection{Peer-to-Peer File Distribution}
