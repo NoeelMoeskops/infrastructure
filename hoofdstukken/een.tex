@@ -7,4 +7,83 @@ Het internet bestaat uit verschillende lagen de \textbf{kern} en de \textbf{host
 \newline
 De meest voorkomende vorm van packet switchers zijn \textbf{routers en link-layer switches}. routers worden meer in de netwerk core gebruikt. Het pad wat een pakketje neemt van van host A naar host B te komen word een \textbf{route of path} genoemd.
 \newline
-Een \textbf{Internet Service Provider (ISP)} geeft je een mail adres.
+Een \textbf{Internet Service Provider (ISP)} geeft je een ip adres en verbind je met het internet. Je hebt hier verschillende lagen in. Je hebt lokale ISP (laag 3) laag 2 ISPs en in de core zitten laag 1 ISP.
+\newline
+Alle applicaties op je computer die verbindeng willen maken met een andere eind-systeem maken gebruik van een \textbf{application protocol} voorbeelden hiervan zijn http, https, ftp, skype, nfs etc. De belangrijkte protocolen voor het internet zijn \textbf{Transmission Control Protocol (TCP)} en \textbf{Internet Protocol (IP)} Het internet model wat nu in gebruik is heet daarom ook het \textbf{TCP/IP} model.
+\newline
+Internet standaarden zijn super belangrijk om te kunnen communiseren tussen systemen. Deze worden vaak gemaakt door het \textbf{Internet Engineering Task Force (IETF)}. Openbare vrijstandaarden noem je \textbf{requests for comments (RFCs)} daar mag iedereen aan werken; implementeren en wijzigen. Of het word goed gekeurd is een ander verhaal.
+
+\subsubsection{A service Description}
+\textbf{distributed applications} zijn programma's die verdeelt zijn onder meer mensen dus games, sociale media, streaming services omdat ze meer system ding doen ofzo (pag 33.).
+\newline
+Een eindsysteem bind zichzelf aan een socket. een webserver bijvoorbeeld poort 80. Dit noem je een \textbf{socket interface}.
+
+\subsubsection{What is a protocol}
+Een protocol is een van te voren afgesproken manier om met elkaar te praten. Dit hebben computers nodig om succesvol met elkaar te kunnen communiseren. Elk protocol heeft zo haar eigen doel.
+
+\subsection{The Network Edge}
+Het internet bestaat uit \textbf{clients} en \textbf{host} een client is een systeem wat iets opvraagt van een host. En een host is een systeem wat informatie geeft aan een client op aanvraag. Een \textbf{data center} kan bestaan uit meerdere \textbf{end-systems/host} kan oplopen in de tonnen.
+
+\subsubsection{Access Network}
+Om met het internet te verbinden heb je natuurlijk ook een kabel nodig. Een \textbf{Digital subscriber line (DSL)} is zon soort kabel. ookal word DSL voor meer dan 85\% gebruikt kan je veel sneller gaan met \textbf{fiber to the home (FTTH)}
+
+\subsubsection{Physical Media}
+fysieke media vallen in twee categorieen: \textbf{guided media en unguided media}. guided media is bedraad en unguided media in draad-loos.
+\newline
+\textbf{Unshielded twisted pair (UTP)} word vaak gebruikt binnen een gebouw. transfer rates gaan van 10 Mbps tot 10Gbps. Coax cabels zijn een guided \textbf{shared medium}, op een shared medium kunnen meerdere systemen aangesloten zijn met maar 1 kabel. terwijl de data niet shared is.
+\newline
+In communicatie worden er twee verschillende soorten satalite gebruikt. \textbf{Geostationary satellites} deze blijven op een plek boven de aarde zweven op 36.000 KM. En \textbf{low-eath orbiting (LEO) satallites} deze zijn een stuk dichterbij en staan ook nooit stil.
+\subsection{The Network Core}
+\subsubsection{Packet Switching}
+Wanneer je een bericht stuurt over het internet word hij in kleine stukjes gehakt, dit noem je \textbf{packets} dit pakketje gaat door allemaal \textbf{packet switches} (routers en link-layer switches).
+\newline
+De meeste packetswitchers zijn \textbf{store-and-forward transmission} dit betekent dat ze eerst wachten totdat alle stukjes van een paket binnen is voordat hij het door verstuurt. Voor iedere link aan een router heb je ook een \textbf{output buffer/output queue} dit is een stukje ruimte waar de router pakketjes stopt voordat hij ze versuurt. Een pakketje kan dus een \text{queuing delay} oplopen. Wanneer een queue vol zit kan het pakketje worden gedropt en ontstaat er dus \textbf{packet loss}.
+\newline
+Er zijn ook verschillende \textbf{routing protocols} Voor routers om met elkaar te praten. 
+\subsubsection{Circuit Switching}
+word niet behandeld. (pag. 55)
+
+\subsubsection{A Network of Networks}
+Omdat er meerdere lagen van ISPs bestaan word degene waar jij in contact mee komt de access ISP genoemd en de bovenste laag de global ISP. Je zou ook kunnen stellen dat de access ISP een \textbf{customer} is van global ISP en dat hij weer de \textbf{provider} is.
+\newline
+Een \textbf{PoP} is een verzameling van routers op een lokatie (op een niet access ISP level) die word gebruikt om meerdere access ISP te verbinden naar local of global ISP. Een super switch eigenlijk maar dan van routers.
+ISPs kunnen ook direct met elkaar contact leggen zonder hulp van een local of global ISP dit bespaart kosten en noem je \textbf{peer}.
+\newline
+Een random bedrijf kan ook een \textbf{Internet Exchange Point (IXP)} opzetten. Dit is wel letterlijk een mega switch waar iedereen verbinding mee kan maken om zo internet te delen.
+Er bestaan ook \textbf{content-provider networks} Dit zijn mega bedrijven zoals Google, facebook, Amazon etc. Die als tier 1 (global) ISP spelen.
+\subsection{Delay, Loss And Throughput in Packet-Switched Networks}
+Wanneer een pakketje bij een node is kan het vertraging oplopen. Dit kan \textbf{nodal processing delay, gueeuing dealy, transmission delay of propagation delay} zijn. Al deze dingen samen noemen we \textbf{total nodal delay}.
+\newline
+\paragraph{processing delay} is de tijd dat het duurt voor een node om naar de header van een pakketje te kijken. en om te kijken waar het naartoe moet.
+
+\paragraph{queuing delay} is de tijd dat het pakketje in de rij moet wachten tot dat het verstuurt kan worden.
+
+\paragraph{transmission delay} Dit is de tijd dat het duurt om alle pakketjes op de link te pushen. Dit is niet de tijd van een node naar de andere.
+
+\paragraph{propagation delay} Dit is de tijd dat het duurt om een pakketje van een node naar de anderen te sturen.
+\newline
+\textbf{traffic intensity} word bepaald door $paket grote * aantal pakketjes / transmissionrate$ ($La/R$). Als een queue van een node is kan hij het pakketje \textbf{droppen} dan is de data verloren, hij kan er ook voor kiezen om een ander pakketje te droppen.
+\newline
+\textbf{Instantaneous throughput} is de throughput in een moment. \textbf{average throughput} is de gemiddelde throughput.
+
+\subsection{Protocol Layers and Their Service Models}
+
+\subsubsection{Layerd Architecture}
+\paragraph{Protocol Layering}
+Het idee van protocol layering is dat je al je dingen in andere lagen zet. Iedere laag heeft dan end-points waarmee het een service bied aan de laag erboven. en een end-point waarmee het service vraagt aan de laag eronder. De inhoud van de layer kan veranderen als de end-points maar hetzelfde blijven. Dit zorgt voor een schaalbaal systeem.
+\paragraph{Applicatie layer} Dit is de layer die drijd op een eind-systeem protocolen zoals HTTP, FPS, Skype, IMAP etc. dit gaat oneindig door. data word hier een \textbf{message} genoemd
+\paragraph{Transport Layer} deze laag zorgt ervoor dat de data van de applicatie laag uit je computer gaat en dat inkomende data naar de juiste applicatie worden geleid. Deze laag kent maar twee protocollen: \textbf{TCP \& UDP}. Data word hiet een \textbf{segment} genoemd
+\paragraph{Network Layer} Deze laagt zorgt voor de navigatie van node naar node. Dit kent ook maar een aantal protocollen: \textbf{IP, en not iets?} //TODO: protocollen. Data word hier een \textbf{datagram} genoemd.
+
+\paragraph{Link layer} dit is de laag wat letterlijk de data van node A naar node B brengt. Het gebruikt hiervoor de physical layer. Dit doet het met het \textbf{PPP} protocol. Data op deze laag worden \textbf{frames} genoemd.
+
+\paragraph{physical layer} dit is letterlijk een ethernet kabel of wi-fi verbinding.
+
+\subsubsection{Encapsulation}
+Wanneer je data verstuurt over het internet doe je aan encapsulation. Een beetje als een russiche pop met meerdere lagen. Een Message wordt in een segment gestopt. waarbij de transport layer alleen kijkt naar de header van de message. Hij voegt dan wat nuttige data toe aan de segment header en geeft het dan aan de network laag. die maakt er een datagram van en kijkt weer naar de header van de segment. Zo gaat het door tot aan de Link laag. Wanneer de Frame bij een switch komt word hij niet uitgepakt omdat deze ook alleen gebruik maakt van de link layer. Een router werkt echter op de netwerk laag, het pakketje word dan uitgepakt naar een datagram wanneer het bij een router is en weer ingepakt als de router het weer verstuurt. Wanneer het bij zijn eindbestemming aankomt word het weer helemaal uitgepakt tot een Message.
+\subsection{Network Under Attack}
+slechte software word \textbf{malware} genoemd. Je hebt hierin meerde varianten: \textbf{Virusesen} die je zelf op je computer werkt en \textbf{worms} die een via een lek in je systeem komen. Veel malware in \textbf{self-replicating} het versprijd zichzelf.
+\newline
+\textbf{deniel-of-service (DoS)} is dat je heel veel verkeer stuurt naar een host om zo zijn toegang tot het internet te blokeren. Dit kan op drie manieren \textit{vulnerability attack} is een aanval speciviek gemaakt om een lek te gebruiken om toegang te blokeren. \textit{bandwidth flooding} Met deze aanval stuur/vraag je mega veel en vaak data naar/van een host. \textit{connection flooding} is dat je alle sockets van een host bezet houd door een (half) open connectie te behouden. Je kan ook een \textbf{distributed DoS (DDos)} uitvoeren doormiddel van een \textbf{botnet}.
+\newline
+Je kan ook op een lokaal netwerk \textbf{packets sniffen} dan inspecteer je alle pakketjes op een netwerk. Je kan ook je \textbf{ip spoofen} dan doe je net alsof je een andere IP hebt.
