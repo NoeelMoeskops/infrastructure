@@ -1,0 +1,25 @@
+\section{Transport Layer}
+\subsection{introduction and Transport-Layer Services}
+Een transport layer protocol zorgt voor logiche communicatie tussen applicaties van verschillende hosts.
+\subsubsection{Relationship between Transport and Network Layers}
+\subsubsection{Overview of the Transport Layer in the Internet}
+Op de transport layer heb je maar twee protocollen \textbf{UDP (User Datagram Protocol) en TCP (Transmission Control Protocol)}. UDP levert geen vertrouwlijke data overdracht. Wanneer dat niet aankomt word het niet gecontroleerd. TCP doet dat wel. UDP heeft daardoor wel een kleinere header en kan data versturen zonder een handshake waardoor het bij sommige gevallen sneller kan zijn.
+\newline
+IP/TCP word als een \textbf{best-effort delivery service en als unreliable service} gezien. Dit houd in dat het zijn best doet maar geen beloftes doet, je data kan dus niet aankomen of vermist raken. TCP bied wel \textbf{reliable data transfer} door te controleren of aan pakketje wel in aangekomen. TCP maakt ook gebruikt van flow control, acknowledgments en onderanderen \textbf{congestion control}. Congestion control is service die TCP bied aan het internet om er voor te zorgen dat haar pakketjes niet het hele internet overspoelen. Wanneer TCP merkt dat een node maar 10 pakketjes per seconde kan handelen en hij er zelf 100 per seconde stuurt, zal TCP dit terug schroeven om zo het netwerk niet onnodig te belasten.
+
+\subsection{Multiplexing And Demultiplexing}
+Een applicatie bind zich aan een socket, dit is waarmee hij communiseert met de transport laag en dus verbonden is met het internet.
+\newline
+Wanneer de transport laag een segment van de netwerk laag ontvangt inspecteerd hij deze en stuurt het door naar de bijbehoorende poort. Dit proces noemen we \textbf{demultiplexing}. Andersom van applicatie naar network heet \textbf{multiplexing}.
+\newline
+TCP en UDP hebben beide twee header fields gemeen: \textbf{source port, destination port}. Een port is 16bit en kan dus van 0 tm 65535 zijn. van 0 tot 1023 worden \textbf{well-known port numbers} gemoend. Deze zijn eigenelijk al bezet door ouroude internet applicaties.
+TCP laat zichzelf identifiseren door middel van een four-tuple: source ip, source port, destination ip, dest. port.
+\subsection{Connectionless Transport: UDP}
+voordelen van UDP:
+\paragraph{Finer application-level control over what data is sent, and when} Omdat de header van udp klein is stuur je geen dingen mee waarvan je niet weet wat het is. Omdat udp ook bijna geen controle uitvoert op het pakketje word het bijna rouw doorgestuurt naar de netwerk laag.
+\paragraph{no connection establishment} Met UDP kan je meteen beginnen met versturen van data, het is niet nodig om eerst een three hand-shake te doen en/of om connecties open te houden. Wat bij TCP wel het geval is.
+\paragraph{No connection state} UDP is stateless, je hoeft niet voor het verzenden connectie te maken.
+\paragraph{Small packet header overhead} hier hebben we het al over gehad.
+\subsubsection{UDP segment structure}
+\subsubsection{UDP checksum}
+udp heeft net als tcp ook checksums maar ze zijn een heel stuk toleranter. Wanneer udp merkt dat een pakketje niet klopt kan hij hem alsnog doorsturen (met flag) naar de applicatie laag.
