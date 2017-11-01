@@ -17,9 +17,68 @@ TCP laat zichzelf identifiseren door middel van een four-tuple: source ip, sourc
 \subsection{Connectionless Transport: UDP}
 voordelen van UDP:
 \paragraph{Finer application-level control over what data is sent, and when} Omdat de header van udp klein is stuur je geen dingen mee waarvan je niet weet wat het is. Omdat udp ook bijna geen controle uitvoert op het pakketje word het bijna rouw doorgestuurt naar de netwerk laag.
-\paragraph{no connection establishment} Met UDP kan je meteen beginnen met versturen van data, het is niet nodig om eerst een three hand-shake te doen en/of om connecties open te houden. Wat bij TCP wel het geval is.
+\paragraph{no connection establishment} Met UDP kan je meteen beginnen met versturen van data, het is niet nodig om eerst een \textbf{three-way hand-shake} te doen en/of om connecties open te houden. Wat bij TCP wel het geval is.
 \paragraph{No connection state} UDP is stateless, je hoeft niet voor het verzenden connectie te maken.
 \paragraph{Small packet header overhead} hier hebben we het al over gehad.
 \subsubsection{UDP segment structure}
 \subsubsection{UDP checksum}
 udp heeft net als tcp ook checksums maar ze zijn een heel stuk toleranter. Wanneer udp merkt dat een pakketje niet klopt kan hij hem alsnog doorsturen (met flag) naar de applicatie laag.
+\subsection{Principles of Reliable Data Transfer}
+word niet behandelt. (pag 234)
+\subsection{Connection-Oriented Transport TCP}
+\subsubsection{The TCP Connection}
+TCP is \textbf{connection-oriented} dat wil zeggen dat het eerst een actieve connectie moet hebben met een andere
+host voordat het pakketjes kan ontvangen of versturen. Dit noemen we een hand-shake. De client vraagt aan de host of
+hij verbinding mag maken, de host geeft antwoord dat hij het goed vind en de verbinding opent en de client reageert
+weer dat hij het bericht van de host heeft ontvangen.
+\newline
+TCP is een \textbf{full-duplex service} dat houd in dat hij dingen kan ontvangen en versturen tegelijkertijd, in
+tegenstelling to een walkie-talkie die maar half-duplex is, over. TCP is ook \textbf{point-to-point} dat wil zeggen
+dat er maar 1 ontvangen kan zijn en maar 1 verzender.
+\newline
+Wanneer TCP data krijgt van de applicatie laag doet hij dat in een \textbf{send-buffer}. En van tijd tot tijd stuurt
+hij dit door naar de netwerk-laag. De groote van de hoeveelheid dat hij pakt word bepaald door de \textbf{maximum
+segment size (MSS)} voor de netwerk laag. Deze word weer bepaald door de \textbf{maximum transmission unit (MTU)} dit
+is de maximale frame grote op de link laag. Dit is allemaal plus alle headers van de verschillende lagen en de data.
+
+\subsubsection{TCP segment Structure}
+tpc heeft net als udp \textbf{source en destination port numbers} in zijn header staan. Hij heeft ook een
+\textbf{checksum}.
+\newline
+\begin{itemize}
+    \item \textbf{sequence number field en acknowledgment numberfield} (beide 32bit) word gebruikt voor het verfiëren
+    van het
+    pakketje. Elk pakketje dat verstuurt word met TCP heeft een \textbf{ack} en \textbf{seq} nummer daarmaa kan de
+    ontvanger controleren of hij alle pakketjes wel ontvangen heeft. Als een host een pakketje stuurt met seq: 1 van
+    8 bytes, stuurt de ontvanger een pakketje terug met ack: 10 ($1 + 8 = 9$). Daarma wil hij zeggen dat hij alles
+    tot 9 heeft ontvangen en klaar is voor pakketje 10.
+    \item \textbf{receive window} (16bit) Dit veld word gebruikt voor flow-control. Hierin staat hoeveel bytes de
+    ontvanger kan accepteren.
+    \item \textbf{header length field} (4bit) In deze header staat hoegroot de header is.
+    \item \textbf{options field} In dit veld onderhandelen de twee eind-systemen over de MSS.
+    \item \textbf{flag field} Dit zijn allemaal mini flags van 6bit
+        \begin{itemize}
+            \item \textbf{ACK} de ACK waar we het eerder overhadden.
+            \item \textbf{SYN & FIN} worden gebruikt voor het opzetten en afbreken van de connectie
+            \item \textbf{PSH} als deze aan staat betekent het dat de ontvanger het bericht meteen moet pushen naar
+            de applicatie laag
+            \item \textbf{URG} geef aan dat de data "urgent" is. Dit wijst naar een \textbf{urgent data pointer
+            field} (16bit), maar word nauwlijks gebruikt.
+        \end{itemize}
+\end{itemize}
+De \textbf{sequance van een segment} is belangrijk om de goed volgorde aan te houden. Pakketjes hoeven niet altijd op
+dezelfde volgorde te worden ontvangen.
+
+\subsubsection{Round-Trip Time Estimation and Timeout}
+word niet behandeld (pag 269)
+\subsubsection{Reliable Data Transfer}
+word niet behandeld (pag 272)
+\subsubsection{Flow Control}
+TCP bied \textbf{flow-control service}. Dit is een speed-matching systeem zodat de rate van data wat je verzend even
+hoog is als de bottleneck van je netwerk. Dit kan op meerde methodes. Een van die methodes noem je \textbf{congestion
+control} als je de snelheid op een "file" in het netwerk.
+\newline
+\textbf{receive window} word gebruikt door de verzender om te kijken hoeveel vrije buffer er nog is om dingen te
+verzenden.
+
+
