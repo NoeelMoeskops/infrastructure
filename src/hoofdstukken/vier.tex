@@ -1,1 +1,56 @@
 \section{The Network Layer: Data Plane}
+De netwerk laag kan je opdelen in twee delen: \textbf{data plane en control plane} In hoofdruk 4 gaat het meer over de data-plane.
+
+\subsection{Overview of Network Layer}
+\subsubsection{Forwarding and Routing: The Data and Control Planes}
+Het heel doel van de netwerk laag is om data van een host naar de anderen te verplaatsen. Het bestaat uit
+\begin{itemize}
+    \item \textit{Forwarding} Het pakketje naar een de volgende host sturen.
+    \item \textit{Routing} De route bepalen die het pakketje moet volgen. Dit doet hij met \textbf{routing algorithms}
+\end{itemize}
+Een router heeft een \textbf{forwarding table} waar instaat via welke interface pakketje naar buiten moeten op basis van hun bestemming.
+\subsubsection{Network Service Model}
+De enige service die de netwerk laag bied is \textbf{best effort}. Anderen services die \textbf{niet} toepassen op de netwerk laag maar wel bestaan:
+
+\begin{itemize}
+    \item \textit{Guaranteed delivery}
+    \item \textit{Guaranteed delivery with bounded delay} zelfde als hierboven maar dan tijd gebonden
+    \item \textit{In-order packet delivery}
+    \item \textit{Guaranteed minimal bandwidth}
+    \item \textit{Security}
+\end{itemize}
+\newline
+Switches op de link-layer (\textbf{link-layer switches}) baseren hun beslissingen op de header in de link layer. Switches op de network-layer (\textbf{routers}) doen die beslissingen op basis van de network-layer header.
+
+\subsection{What's Inside a Router?}
+Het router gedeelte van een router bestaat uit de volgende dingen:
+\begin{itemize}
+    \item \textit{Input ports} Dit is waar de pakketjes binnen komen. word uitgepakt tot datagram . Dan wordt gekeken waar de het pakketje naartoe moet en word dan (als hij de voorste in de queue is) Doorgestuurt naar de \textbf{Switching fabric}
+    \item \textit{Switching fabric} hier kunnen maar een aantal pakketjes tegelijkertijd opzitten (meer hierover later) maar  de switching fabric stuurt ze naar de goede \textbf{output ports}
+    \item \textit{Output ports} Hier worden de pakketjes weer ingepakt naar de link-layer en dan physical layer en verstuurt over het internet.
+    \item \textit{Routing processor} Dit ding zorgt ervoor dat het pakketje doe goede richting opgaat. Bij ISP hebben ze zelfs een \textbf{software definded routing} (SDN?) zodat het vanuit een centrale plek gebruikt. Traditioneel gezien delen routers hun forwarding table met elkaar en ze weten ze waar hun pakketje naartoe moet.
+\end{itemize}
+\newline
+De dataplane doet dingen op de nano-seconde en zit ook vaak in hardware omdat het zo snel moet zijn (forwarding etc.) Dingen in de \textbf{control plane} werken vaak op een normale CPU met software.
+\newline
+Er zijn twee verschillende manieren van forwarden in een router:
+\begin{itemize}
+    \item \textit{Destination-based forwarding} een pakketje naar een link sturen omdat hij dan zo snel mogelijk op zijn bestemming komt.
+    \item \textit{Generalized forwarding} Hij kan een pakketje ook naar een link forwarden op basis van zijn afkomst, inhoud of omdat hij niet weet waar hij naar toe moet gaan.
+\end{itemize}
+\subsubsection{Input Port Processing and Destination-Based Forwarding}
+%Het forwarden van een pakketje op basis van zijn bestemming word ge
+\subsubsection{Switching}
+De \textbf{switching fabric} kan op drie verschillende manier werken:
+\begin{itemize}
+    \item \textit{Switching via memory} Dit is de simpelste methode, de data van de input port word gekopieerd naar de ram van de router en gekopieerd naar de output. Met deze methode kan je maar een pakketje tegelijkertijd processen.
+    \item \textit{Switching via a bus} Met deze methode word het pakketje naar alle outputs tegelijk verstuurt via een bus, maar met een label voor de goede output. De anderen outputs negeren het bericht. Ook maar een bericht tegelijkertijd.
+    \item \textit{Switching via an interconnection network (cross-bar)} met deze methode kan je meerde pakketjes tegelijktijd versturen zolang ze maar niet naar de zelfde input en/of output gaan. een pakketje van input A kan naar output X terwijl er ook een pakketje van input B naar output Y gaat. Cross bar is \textbf{non-blocking}
+\end{itemize}
+\subsubsection{Output Port Processing}
+
+\subsubsection{Where Does Queuing Occur}
+het queue van een router gebeurt na de route bepaling in de input ports en aan het gebin van de output ports. Wanneer die queue vol zit kan er \textbf{packet loss} voor komen als er nog meer pakketjes bijkomen. Die worden dan gedropt.
+
+
+\subsection{The Internet Protocol (IP): IPv4, Addressing, IPv6 and More}
