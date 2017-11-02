@@ -1,0 +1,33 @@
+\section{The Network Layer: Contol Pane}
+\subsection{ICMP: The Internet Control Message Protocol}
+Het Internet Control Message Protocol (ICMP) wordt gebruikt door hosts en routers om network-layer informatie met elkaar uit te wisselen. 
+ICMP wordt vooral gebruikt om errors te melden.
+ICMP wordt verzonden in IP datagrams, net als UDP of TCP segments. 
+De ICMP quench message wordt bijna niet gebruikt, omdat TCP zelf congestion control heeft.\newline
+Het programma traceroute maakt gebruik van ICMP TTL expired messages om de route te bepalen. Traceroute stuurt UDP segments met een onwaarschijnlijke port number en een TTL van \textit{n} om de naam van de \textit{n}de router in de route te krijgen. 
+Omdat de destination host een port unreachable message terug stuurt weet traceroute dat het eind berijkt is.
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{ICMP message types}
+    \label{tab:ICMP}
+    \begin{tabular}{l l l}
+      \textbf{ICMP Type} & \textbf{Code} & \textbf{Beschrijving}\\
+      \hline
+      0 & 0 & echo reply (to ping)\\ \hline
+      3 & 0 & destination network unreachable\\ \hline
+      3 & 1 & destination host unreachable\\ \hline
+      3 & 2 & destination protocol unreachable\\ \hline
+      3 & 3 & destination port unreachable\\ \hline
+      3 & 6 & destination network unknown\\ \hline
+      3 & 7 & destination host unknown\\ \hline
+      4 & 0 & source quench (congestion contol)\\ \hline
+      8 & 0 & echo request\\ \hline
+      9 & 0 & router advertisement\\ \hline
+      10 & 0 & router discovery\\ \hline
+      11 & 0 & TTL expired\\ \hline
+      12 & 0 & IP header bad\\ \hline
+
+    \end{tabular}
+  \end{center}
+\end{table}
