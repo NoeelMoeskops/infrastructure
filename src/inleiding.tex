@@ -1,1 +1,367 @@
-%\section{needo}
+\addtocounter{section}{-1}
+\section{Voorwoord}
+\subsection{inleiding}
+Deze samenvatting heb ik geschreven voor het tentamen 2017 blok 1 infrastructure. De hoofdstukken die hier beschreven zijn, zijn ook volgends de \textit{reading guide infrastructe} van het HvA:
+\begin{itemize}
+
+    \item Week 1: network architecture & physical layer
+    \begin{itemize}
+        \item K&R 1.1 - 1.6: study with the exception of paragraph 1.3.2
+        \item K&R 1.7: read this chapter to get an insight into the development of the Internet. You don’t need to memorise the dates, events or people mentioned.
+    \end{itemize}
+
+    \item Week 2: application layer & application protocols
+    \begin{itemize}
+        \item K&R 2.1, 2.2, 2.3
+        \item K&R 2.5: study with the following exception: You don’t need to memorise the calculations in the section ‘Scalability of P2P Architectures’. However, you should be able to compare the distribution time for a P2P architecture to a client-server architecture as shown in figure 2.23.
+
+    \end{itemize}
+
+    \item Week 3: DNS & transport layer
+    \begin{itemize}
+        \item K&R 2.4
+        \item K&R 3.1, 3.2, 3.3, 3.5.1, 3.5.2, 3.5.6
+    \end{itemize}
+
+    \item Week 4: network layer
+    \begin{itemize}
+        \item K&R 4.1
+        \item K&R 4.2 - 4.2.4: study with the following exceptions: o For 4.2.3, you need to understand the role of the switching fabric in a router, but you don’t need to memorise the specific properties of the different technologies that are described (memory, bus, interconnection network). o For 4.2.4, study only the first part (until ‘input queueing’) that describes where packet loss may occur in a router.
+        \item K&R 4.3, 5.6
+    \end{itemize}
+
+    \item Week 5: subnetting and link layer
+    \begin{itemize}
+        \item Study the materials available on the VLO about subnetting
+        \item K&R 6.1: study in its entirety
+        \item K&R 6.2: study with the following exceptions: You should be able to describe what CRC is and how it is used, but you don’t need to be able to do the calculations described in this chapter.
+    \end{itemize}
+    \item Week 6
+    \begin{itemize}
+        \item K&R 8.1
+        \item K&R 8.2 - 8.2.1: study the first part until (but not including) ‘block cyphers’
+        \item K&R 8.2.2: study the first part until (but not including) ‘RSA’
+        \item K&R 8.3
+        \item K&R 8.6: study the first part until (but not including) 8.6.1
+        \item K&R 8.7 - 8.7.1
+        \item K&R 8.9
+    \end{itemize}
+\end{itemize}
+
+\subsection{bijdragen}
+Dit document is geschreven door \noe. Met taal verbeteringen op Hoofdstuk 3 door Thomas Wiggers en Hoofdstuk 5 en 6 zijn ook door Thomas Wiggers geschreven.
+\newline
+Het orginele document kan je vinden op github: \textit{https://github.com/Noedel-Man/infrastructure}
+
+\subsection{oeventoetsen}
+De vragen en antwoorden van de oeven toetsen.
+\subsubsection{vragen}
+\paragraph{week 1}
+
+\paragraph{week 2}
+\begin{enumerate}
+    \item Suppose Host A wants to send a large file to Host B. The path from Host A to Host B passes through three links, of rates R1 = 4 Mbps, R2 = 2 Mbps, and R3 = 1 Mbps.
+
+    Assuming no other traffic in the network, what is the throughput for the file transfer?
+    \item HTTP is a protocol at which layer of the TCP/IP protocol stack?
+    \item SMTP-messages will result in message(s) in the transport-layer using which protocol?
+    \item What is the network application architecture model used by e-mail?
+    \item The transport layer takes care of transmitting data for different applications that run simultaneously on a host. (For instance, you may be using your browser to surf the web, while downloading files in the background using Bittorent.) In order to deliver the data to the correct application process, the transport layer uses port numbers to identify the application process running on the host.
+
+    What port number is normally used by a webserver, using the HTTP protocol?
+    \item When your browser makes an HTTP request, it will specify a request method. What method is normally used to submit data to the webserver  (for instance: data entered into a form on the website)?
+    \item Suppose a company has a relatively slow connection to the Internet, while its employees need to surf the web more and more to find relevant information. The company does not want to upgrade its Internet connection as that would be very expensive. What solution can the company implement to reduce traffic on its access link to the Internet and make sure its employees can surf the web faster?
+    \item This is a transcript of the beginning of a session in what protocol?
+    \item What is the oldest application protocol used to get e-mail from a server to a client?
+    \item kan niet ivm plaatje
+\end{enumerate}
+\paragraph{week 3}
+\begin{enumerate}
+    \item Within an organisation, there can be many subdomains. For example, within the HvA we have: www.hva.nl, rooster.hva.nl, sis.hva.nl, webmail.hva.nl, moodle.informatica.hva.nl and the list goes on...
+
+    There are different types of DNS servers. What type of DNS server is the source of information about the IP-addresses for all hostnames within an organisation?
+    \item DNS servers store resource records. There are different types of DNS records.
+
+    What type of DNS record is used to store a domain and the address of a DNS server that knows the IP addresses for hosts in that domain?
+    \item In addition to translating hostnames to IP addresses, DNS provides a few other important services, such as host aliasing. Name one more service (other than translating hostnames and host aliasing) that is provided by the DNS protocol.
+    \item A computer network's transport layer could, in theory, offer many different services to the application layer. Some examples are:
+    \begin{itemize}
+        \item Guaranteed minimum bandwidth for data transfer
+        \item Guaranteed maximum delay for data transfer
+        \item Reliable data transfer
+        \item Confidential data transfer
+
+    \end{itemize}
+
+    In reality, which of these services are offered by the Internet's transport layer?
+    \item Which transport protocol provides a connectionless service?
+    \item Which TCP service is described below?
+
+    This service allows the sender to match the rate at which it is sending data against the rate at which the receiving application is reading. In this way, this service enables the sender to avoid overflowing the receiver's buffer.
+    \item TCP Syn/Ack
+
+    Consider the TCP segments exchanged between hosts A and B in the picture above. What is the Ack number for the communication from host B to host A? (where the red dot is shown)
+
+    The communicated shown above represents a Telnet session, so one keystroke (one byte of data) is being sent at once.
+    \item The UDP header has only four fields. Name one of them.
+    \item When starting a Wireshark capture, you will notice that Wireshark records lots of different network activity on your computer. Suppose that you have a capture like shown below and, as we did in the practical lab, only want to see the HTTP traffic that was captured when you visited a website. How do you make Wireshark show only the HTTP traffic from the capture below and hide the traffic from other protocols?
+    \begin{enumerate}
+        \item Type the filter 'http' in the green bar in the area labelled 'A'
+        \item Double click 'HTTP' in the column 'protocol' in the area labelled 'B'
+        \item Click the triangle left of 'Hypertext transfer protocol' to show information about HTTP in the area labelled 'C'
+        \item Search for the text 'HTTP' in the area labelled 'D'
+    \end{enumerate}
+    \item During the lab, we used the Telnet protocol to connect to a webserver and request an object.
+
+    What is the correct HTTP request message to request the object: /wiki/Hypertext\_Transfer\_Protocol from the webserver: nl.wikipedia.org?
+
+    (Keep in mind that during the lab you observed the regular behaviour of the HTTP protocol, just as described in the literature.)
+    \begin{enumerate}
+        \item
+        GET /wiki/Hypertext\_Transfer\_Protocol \newline
+        HTTP: 1.1 \newline
+        Host: nl.wikipedia.org
+        \item
+        GET /wiki/Hypertext\_Transfer\_Protocol HTTP/1.1 \newline
+        Host: nl.wikipedia.org
+
+        \item
+        GET http://nl.wikipedia.org/wiki/Hypertext\_Transfer\_Protocol
+
+        \item
+        GET nl.wikipedia.org/wiki/Hypertext\_Transfer\_Protocol HTTP/1.1
+    \end{enumerate}
+\end{enumerate}
+\paragraph{Week 4}
+\begin{enumerate}
+    \item The figure below shows a typical communication between a DHCP client and a DHCP server. What is the name of the DHCP message that is sent from the client to the server in the first step, marked with a 1?
+    \item A DHCP server can provide a client with an IP-address and lease time, but it can provide other information as well. For instance, DHCP will also provide the client with the subnet mask for the network. Name one more piece of information (other than the IP-address, it's lease time and subnet mask) that a DHCP server will typically provide to a client.
+    \item Suppose that a host wants to obtain an IP-address from a DHCP server. How will the host find the DHCP server in the network?
+    Select one:
+    \begin{enumerate}
+        \item The DHCP server is always reachable at a fixed address in the network
+        \item The host will look up the address of the DHCP server in its iptables
+        \item It will send a broadcast message to all hosts in the network, asking for the DHCP server to identify itself
+        \item The host will request the IP address of the DHCP server using the DNS protocol
+    \end{enumerate}
+    \item Which network layer function is described below?:
+    \begin{itemize}
+        \item The network layer must determine the route or path taken by packets as they flow from sender to a receiver.
+        \item Algorithms are used to calculate the paths.
+    \end{itemize}
+    \item (niet mogelijk ivm plaatje)
+    \item Consider the address below:
+
+    2002:4559:1FE2:0000:0000:0000:4559:1FE2
+
+    This 128 bit address is an example of the addresses used by which network layer protocol?
+    \item Which of the following is not a type of ICMP message?
+    \begin{enumerate}
+        \item TTL (time to live) expired
+        \item echo reply
+        \item echo request
+        \item bad sequence / acknowledgement number Correct
+        \item destination network unreachable
+    \end{enumerate}
+    \item At home, you will typically be provided with only one IP-address by your Internet Service Provider. However, you may want to connect many devices to the internet, such as a desktop PC, laptops, smartphones, your gaming console, a NAS, smart TV or chromecast, and so on...
+
+    Which method is used to connect all these devices to the internet, sharing the same public IP-address?
+    \item During last week's practical lab, we tried out three different Linux commands (tools) for querying DNS information. Name one of these commands.
+
+    \item Consider a TCP connection between Host A and Host B. Suppose that the TCP segments travelling from Host A to Host B have source port number 4012 and destination port number 96. What is the destination port number for the segments travelling from Host B to Host A?
+
+\end{enumerate}
+\paragraph{Week 5}
+\begin{enumerate}
+    \item What is the decimal equivalent of the following binary number?
+    00011001
+    \item The subnet mask:
+
+    255.255.255.128
+
+    Can be written in CIDR notation as?
+    Select one:
+    \begin{enumerate}
+        \item/16
+        \item/0
+        \item/25
+        \item/32
+        \item/255
+    \end{enumerate}
+
+    \item Given is the following IP-address with subnet: 192.168.2.10/28.
+
+    How many IP-addresses are in this subnet (including reserved addresses)?
+    \item How many devices can be provided with an IP-address, using the following Network-ID and subnet: 192.168.1.0/27?
+
+    \item Suppose you are a network administrator and want to create a subnet that will contain 1000 hosts.
+
+    What is the smallest possible subnet that will allow you to do so?
+    Select one:
+    \begin{enumerate}
+        \item /23
+        \item /24
+        \item /16
+        \item /22
+        \item /0
+    \end{enumerate}
+    \item Given is the figure below. At what stage (1, 2 or 3) does the link-layer add error checking bits, rdt and flow control to a datagram? Only enter the numerical value.
+    \item Suppose that a link layer protocol provides error detection by adding one parity bit to every 8 bits of data that are transmitted, using an even parity scheme.
+
+    Which of the following data streams was received correctly?
+
+    (For this question, you may assume that it is extremely unlikely for more than one bit error to occur during transmission.)
+    Select one:
+    \begin{enumerate}
+        \item Data: 0 1 0 1 1 1 0 1, parity: 1
+        \item Data: 1 1 1 1 1 1 1 1, parity: 1
+        \item Data: 0 1 1 1 1 1 0 1, parity: 1
+        \item Data: 1 1 0 1 1 0 0 1, parity: 0
+    \end{enumerate}
+    \item kan niet ivm plaatje
+    \item Which error-detection technique matches the following description?
+    \begin{itemize}
+        \item This technique is widely used in today's computer networks
+        \item It is often used in the link layer, where dedicated hardware can perform the more complex calculations
+        \item The codes used in this technique are also known as polynomial codes and the calculations are done using modulo-2 arithmetic
+
+    \end{itemize}
+    \item What is the Linux command you can use to configure your client's network settings using the Dynamic Host Configuration Protocol?
+\end{enumerate}
+
+\paragraph{Week 6}
+\begin{enumerate}
+    \item kan niet ivm dropdown.
+    \item When using public key cryptography, we want to make sure that we have the actual public key of the person (or organisation, device, etc.) with whom we want to communicate, and not the public key of someone else pretending to be that person.
+
+    A special institution is responsible for verifying the identity of a person and binding a public key to them by issuing a signed certificate. What is the name of the institution that performs this job?
+    \item Which protocol on the transport layer is enhanced in security services by using SSL?
+    \item Virtual Private Networks (VPN) use a special protocol for their security, that operates at the network layer. What is the name of this protocol?
+    \item Firewalls allow some packets to pass and block other packets. A traditional packet filter examines each packet in isolation to determine whether is is allowed to pass or is dropped. Which of the following information can be used to base this decision on?
+    Select one:
+    \begin{enumerate}
+        \item Source or destination port and IP address
+        \item Status fields in the headers, such as protocol type in the IP datagram field or TCP flag bits
+        \item What router interface the packet arrives on
+        \item All of the above
+    \end{enumerate}
+    \item Firewalls can be classified in three categories. Name the category that is described below:
+
+    The firewall does not examine individual packets in isolation, but tracks the state of TCP connections to make decisions about which packets to allow through or to block.
+    \item What is the name of the system described below?
+
+    To detect advanced attacks, this system performs deep packet inspection and analysis. When it observes a suspicious packet or series of packets, it could alert the network administrators, so that the suspicious activity can be analysed further and appropriate action can be taken.
+    \item A company will typically run different servers in their network. Which of the following servers would you expect to find within the Demilitarized Zone (DMZ)?
+    Select one:
+    \begin{enumerate}
+        \item The webserver, hosting the company's website
+        \item The server that hosts the test environment for application developers
+        \item The DHCP server that assigns IP-addresses to hosts in the network
+        \item The file server, hosting all the files that are created and used by employees
+    \end{enumerate}
+\end{enumerate}
+
+\paragraph{Week 7}
+\begin{enumerate}
+    \item What is an advantage of the Linux Operating System, when compared to alternative Operating Systems such as Microsoft Windows?
+    Select one:
+    \begin{enumerate}
+        \item More software, such as games or highly specialised tools for image and video editing, is available for Linux
+        \item Linux is more efficient and stable
+        \item All software applications that run on Linux are free
+        \item Linux is easier to use for inexperienced users
+    \end{enumerate}
+    \item Given is the figure below where you can see (and not edit) the contents of the file test.c. Write out the complete Linux command that was used to get the output below. You do not need superuser access.
+    \item Given is the figure below. Write out the complete Linux command to move the file test.c  to the directory SE1. You don't need superuser access.
+    \item Write out the Linux command that shows the full pathname of the current directory.
+    \item Write out the Linux command that is used to get a complete listing of the contents of the current directory, including permissions for files and directories, such as shown in the figure below.
+    \item Write out the complete Linux command to make a new directory with the name Infra in the current directory. (You don't need superuser privileges.)
+    \item Give one of the Linux commands used to forcibly end a process.
+    \item Write out the complete Linux command that gives the group 'docent' read and execute rights to the file test.c. Keep in mind that the owner must maintain its read and write rights. You do not need superuser rights.
+    \item Suppose you think VI is too complicated and want to use an editor that is easier to work with. To do this, you want to install the software package, named 'nano'. Write out the complete Linux command used to install nano.
+
+    (Suppose you are logged in with an account that has sufficient rights to do this.)
+    \item On some Linux distributions, the command 'sl' can be used to display an animated picture of a train (see the screenshot below). Suppose you want to know more about the functionality of this command, and the command line options that are available.
+
+    Write out the complete Linux command you would enter, to get the documentation for the 'sl' command.
+\end{enumerate}
+
+\subsubsection{antwoorden}
+\paragraph{Week 1}
+ontbreekt :(
+\paragraph{Week 2}
+\begin{enumerate}
+    \item 1 Mbps
+    \item Application
+    \item TCP
+    \item client-server
+    \item 80
+    \item POST
+    \item proxy server
+    \item SMTP
+    \item POP
+    \item -
+\end{enumerate}
+\paragraph{Week 3}
+\begin{enumerate}
+    \item authoritative server
+    \item NS record
+    \item mail server aliasing
+    \item C. Only reliable data transfer
+    \item UDP
+    \item flow control
+    \item 43
+    \item Source port
+    \item A
+    \item B
+\end{enumerate}
+\paragraph{Week 4}
+\begin{enumerate}
+    \item discover
+    \item DNS server and first-hop router (or default gateway)
+    \item C. It will send a broadcast message to all hosts in the network, asking for the DHCP server to identify itself
+    \item Routing
+    \item B
+    \item IPv6
+    \item D. bad sequence / acknowledgement number
+    \item NAT
+    \item nslookup, dig
+    \item 4012
+\end{enumerate}
+\paragraph{Week 5}
+\begin{enumerate}
+    \item 25
+    \item C. /25
+    \item 16
+    \item 30
+    \item D. /22
+    \item 1
+    \item A. Data: 0 1 0 1 1 1 0 1, parity: 1
+    \item b2
+    \item Cyclic Redundancy Check (CRC)
+    \item dhclient
+\end{enumerate}
+\paragraph{Week 6}
+\begin{enumerate}
+    \item -
+    \item CA, Certification Authority
+    \item TCP
+    \item ipsec
+    \item D. All of the above
+    \item stateful packet filter
+    \item ids
+    \item A. The webserver, hosting the company's website
+\end{enumerate}
+\paragraph{Week 7}
+\begin{enumerate}
+    \item B. Linux is more efficient and stable
+    \item cat test.c
+    \item mv test.c SE1
+    \item pwd
+    \item ls -l
+    \item mkdir Infra
+    \item kill
+    \item chmod 650 test.c
+    \item apt-get install nano
+    \item man sl
+\end{enumerate}
