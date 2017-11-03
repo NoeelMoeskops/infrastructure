@@ -54,3 +54,22 @@ het queue van een router gebeurt na de route bepaling in de input ports en aan h
 
 
 \subsection{The Internet Protocol (IP): IPv4, Addressing, IPv6 and More}
+ Er bestaan anno 2017 twee versies van IP (internet protocol): Ipv4 en Ipv6. IPv4 word het meest gebruikt maar heeft maar een hele kleine hoeveelheid adressen 32bit. Die van IPv6 zijn 128 bits.
+
+\subsubsection{IPv4 Datagram Format}
+Het IPv4 datagram bestaat uit de volgende onderdelen:
+\begin{itemize}
+    \item \textit{Version number} 4bits, staat het versie nummer van de IP.
+    \item \textit{Header lenght} 4 bits, beschrijft hoe groot de header is. Meestal 20 bytes.
+    \item \textit{Type of Service} (TOS) hier wordt beschreven wat voor soort data dit is. realtime, VOIP etc.
+    \item \textit{Datagram length} 16 bit, dit is de totale lengte van de datagram (header+data) meestal niet meer dan 1,500 bytes (max 65,535)
+    \item \textit{Identifier, flags, fragmentation offset} IPv6 heeft geen fragmentation
+    \item \textit{Time-to-live (TTL)} 8bit, In dit veld word aangegeven hoeveel hops dit datagram nog mag maken. Wanneer hij bij een nieuwe router komt word deze waarde $-1$ gedaan. Wanneer het $0$ berijkt moet de router hem droppen.
+    \item \textit{Protocol} 8bit, Hierin staat welke transport-layer protocol deze datagram naar moet wordengepaast wanneer hij op zijn bestemming is. Dus TCP of UDP
+    \item \textit{header checksum} 16bit, checksum voor de header.
+    \item \textit{Source and destination IP addresses} 32bit p.s, hier staan de source en destination ip in allebij in een apart veld van 32bit.
+    \item \textit{Options} Hier kunnen not extra dingen staan, word bijna niet gebruikt. IPv6 heeft dit veld niet meer.
+    \item \textit{Data} De data van de datagram. (TCP, UDP, ICMP etc.)
+\end{itemize}
+
+\subsubsection{IPv4 Datagram Fragmentation}
