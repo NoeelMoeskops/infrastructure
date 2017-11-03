@@ -15,9 +15,9 @@ Wanneer de transport laag een segment van de netwerk laag ontvangt inspecteerd h
 TCP en UDP hebben beide twee header fields gemeen: \textbf{source port, destination port}. Een port is 16bit en kan dus van 0 tm 65535 zijn. van 0 tot 1023 worden \textbf{well-known port numbers} gemoend. Deze zijn eigenelijk al bezet door ouroude internet applicaties.
 TCP laat zichzelf identifiseren door middel van een four-tuple: source ip, source port, destination ip, dest. port.
 \subsection{Connectionless Transport: UDP}
-voordelen van UDP:
+Voordelen van UDP:
 \paragraph{Finer application-level control over what data is sent, and when} Omdat de header van udp klein is stuur je geen dingen mee waarvan je niet weet wat het is. Omdat udp ook bijna geen controle uitvoert op het pakketje word het bijna rouw doorgestuurt naar de netwerk laag.
-\paragraph{no connection establishment} Met UDP kan je meteen beginnen met versturen van data, het is niet nodig om eerst een \textbf{three-way hand-shake} te doen en/of om connecties open te houden. Wat bij TCP wel het geval is.
+\paragraph{No connection establishment} Met UDP kan je meteen beginnen met versturen van data, het is niet nodig om eerst een \textbf{three-way hand-shake} te doen en/of om connecties open te houden. Wat bij TCP wel het geval is.
 \paragraph{No connection state} UDP is stateless, je hoeft niet voor het verzenden connectie te maken.
 \paragraph{Small packet header overhead} hier hebben we het al over gehad.
 \subsubsection{UDP segment structure}
@@ -42,7 +42,7 @@ segment size (MSS)} voor de netwerk laag. Deze word weer bepaald door de \textbf
 is de maximale frame grote op de link laag. Dit is allemaal plus alle headers van de verschillende lagen en de data.
 
 \subsubsection{TCP segment Structure}
-tpc heeft net als udp \textbf{source en destination port numbers} in zijn header staan. Hij heeft ook een
+TCP heeft net als UDP \textbf{source en destination port numbers} in zijn header staan. Hij heeft ook een
 \textbf{checksum}.
 \newline
 \begin{itemize}
@@ -59,7 +59,7 @@ tpc heeft net als udp \textbf{source en destination port numbers} in zijn header
     \item \textbf{flag field} Dit zijn allemaal mini flags van 6bit
         \begin{itemize}
             \item \textbf{ACK} de ACK waar we het eerder overhadden.
-            \item \textbf{SYN & FIN} worden gebruikt voor het opzetten en afbreken van de connectie
+            \item \textbf{SYN \& FIN} worden gebruikt voor het opzetten en afbreken van de connectie
             \item \textbf{PSH} als deze aan staat betekent het dat de ontvanger het bericht meteen moet pushen naar
             de applicatie laag
             \item \textbf{URG} geef aan dat de data "urgent" is. Dit wijst naar een \textbf{urgent data pointer

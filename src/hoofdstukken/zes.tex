@@ -1,0 +1,89 @@
+\section{The Link Layer and LANs}
+\subsection{Introduction to the Link Layer}
+Elk apparaat dat een link-layer protocol draait wordt een \textbf{node} genoemt. Hosts, routers, switches en WiFi access points zijn dus allemaal nodes.
+De verbinding tussen nodes wordt een \textbf{link} genoemt. Een link gaat van node tot node.
+Over links worden \textbf{link-layer frames} verstuurd, die network-layer datagrams dragen (encapsulate).
+\subsubsection{The Services Provided by the Link Layer}
+De link laag kan de volgende services aanbiden:
+\begin{itemize}
+	\item \textit{Framing.} Bijna alle link-layer protocollen pakken de network-layer datagrammen in als een link-layer frame.
+	\item \textit{Link access.} Het medium access control (MAC) protocol beschrijft hoe de frames door de link worden gestuurd. 
+	Dit is vooral van belang bij WiFi omdat er dan meerdere nodes op een link zitten.
+	\item \textit{Reliable delivery.} Een link kan leverings zekerheid bieden. Dit zie je als de link onbetrouwbaar is zoals bij WiFi.
+	\item \textit{Error detection en correction.} Dit vermindert het aantal retransmissions. Dit wordt verder behandeld in \ref{EDC}
+\end{itemize}
+\subsubsection{Where Is the Link Layer Implementend}
+De link laag is geimplementeerd in de \textbf{network adapter}, ofwel \textbf{network interface card (NIC)}. 
+Deze network adapter verzorgt het in- en uitpakken van de frames en voert eventueel de error detection en correction uit.
+Het grootste gedeelte van de link laag is geimplementeerd in hardware.
+
+
+\subsection{Error-Detection and -Correction Techniques} \label{EDC}
+\textit{Bit-level error detection and correction} zijn twee services die veelal door de link laag wordt geleverd. De transport laag bied deze service ook, maar minder uitgebreid.
+Door fouten in de link kan er soms een bit of meer geflipt worden. Om deze te detecteren en te herstellen zijn een aantal technieken, waarvan er hier drie behandeld zullen worden.
+
+\subsubsection{Parity Checks} 
+De simpelste vorm van error detection is een enkele \textbf{parity bit}. Bij een even parity scheme zorgt de parity bit ervoor dat het aantal 1s in heb bericht even is.
+Mocht er een bit geflipt zijn tijdens transport dan is dat te detecteren omdat het aantal 1s nu oneven is. Dit is weergegeven in figuur \ref{fig:parity}.
+
+\begin{figure}[!ht]
+  \begin{center}
+    \caption{parity check (even)}
+    \label{fig:parity}
+    \begin{tabular}{c c} 
+      \textbf{data bits} & \textbf{parity bit} \\
+      0111000110101011 & 1 \\
+    \end{tabular}
+  \end{center}
+\end{figure}
+
+Als er twee bits geflipt worden zal dit niet worden gedetecteerd. Omdat dit voor kan komen wordt onderandre de \textbf{two-dimensional parity} scheme gebruikt. 
+Hierbij wordt gebruik gemaakt van een parity rij en colom. Deze techniek bied daardoor niet alleen error detection, maar als er een bit geflipt is ook error correction. 
+Dit is weergegeven in figuur \ref{fig:2dparity}.
+
+\begin{figure}[!ht]
+  \begin{center}
+    
+    \caption{2D parity check (even, no errors)}
+    \label{fig:2dparity}
+    \begin{tabular}{c c c c c|c} 
+      1 & 0 & 1 & 0 & 1   & 1 \\
+      1 & 1 & 1 & 1 & 0   & 0 \\
+      0 & 1 & 1 & 1 & 0   & 1 \\ \hline
+      0 & 0 & 1 & 0 & 1   & 0 \\
+    \end{tabular}
+    
+    
+    \caption{2D parity check (even, errors)}
+    \label{fig:2dparityerrors}
+    \begin{tabular}{c c c c c|c} 
+      1 & \textbf{0} & 1 & 0 & 1   & 1 \\
+      \textbf{1} & \textbf{\textit{0}} & \textbf{1} & \textbf{1} & \textbf{0}   & \textbf{0} \\
+      0 & \textbf{1} & 1 & 1 & 0   & 1 \\ \hline
+      0 & \textbf{0} & 1 & 0 & 1   & 0 \\      
+    \end{tabular}
+  
+  \end{center}
+\end{figure}
+
+Het detecteren en herstellen van fouten wordt \textbf{forward error correction (FEC)} genoemd.
+FEC vermindert het aantal retransmissions en ook de latency omdat er niet op de retransmission gewacht hoeft te worden.
+
+\subsubsection{Checksumming Methods}
+De \textbf{Internet Checksum} is een error detectie techniek. Door de berichten van \textit{d}-bits op te delen als integers van \textit{k}-bits 
+en die op te tellen en het 1s complement hiervan te nemen kan de checksum worden opgesteld. De checksum wordt door de verzender in de header mee gestuurd. 
+De ontvangen doet vervolgens hetzelfde met de ontvangen data (inclusief checksum). Als het resultaat hiervan een 0 bevat is er een error.\newline
+Bij TCP en UDP wordt de checksum  over de header en de data berekend. Bij IP wordt de checksum alleen over de IP header berenkend omdat TCP en UDP hun eigen checksum hebben.
+
+\subsubsection{Cyclic Redundancy Check (CRC)}
+De \textbf{Cyclic Redundancy Check (CRC) codes} is een techniek om errors in berichten te detecteren.
+Het voordeel van CRC is dat deze meer errors kan detecteren dan parity bits of checksums. 
+Het aantal errors dat het kan detecteren wordt bepaald door de lengte $\textit{r} + 1$ van een door de nodes afgesproken rijtje bits genaamt de generator. 
+Dit aantal errors is \textit{r}. Als er meer dan \textit{r} errors zijn dan kunnen deze gedetecteerd worden met een kans van $1 - 0.5^\textit{r}$.
+CRC is echter wel zwaarder om te berekenen.
+CRC wordt daarom veelal op de link laag in hardware toegepast, omdat deze sneller is dan software.
+CRC codes staan ook bekend als \textbf{polynomial codes}.  
+
+
+
+
