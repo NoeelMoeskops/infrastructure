@@ -73,3 +73,99 @@ Het IPv4 datagram bestaat uit de volgende onderdelen:
 \end{itemize}
 
 \subsubsection{IPv4 Datagram Fragmentation}
+Een Ethernet frame heeft een \textbf{maximum transmisson unit (MTU)} van 1,500 bytes. Maar somige wide-area link op
+het internet kunnen hebben maar een MTU van 576 bytes. Als dat gebeurt word het pakketje opgesplits in het maximale
+MTU van de bottleneck. Dit noem je een \textbf{fragment}. Het pakketje word daarna \textbf{niet} weer opnieuw groter
+gemaakt als hij de bottleneck uit is. Bij IPv6 stuurt de router een ICMP bericht naar de verzender om te zeggen dat
+hij een kleinere MTU moet doen. Dit hebben ze veranderd omdat het voor de router te process intensief is.
+
+\subsubsection{IPv4 Addressing}
+De connectie tussen een host en een link noem je een \textbf{interface}.
+\newline
+IPv4 addresen zijn 32bit, er kunnen dus 4 miljard unieke addresen bestaan. IPv4 word eigenlijk altijd opgeschreven in
+een \textbf{dotted-decimal notation} (193.32.216.9) elk getal tussen de puntjes is 8 bits, je zou dit ook in binaur
+kunnen opschrijven
+$$11000001 00100000 11011000 00001001$$
+Je kan in een netwerk \textbf{subnets} maken, subnets kan je onderverdelen per interface van je router(s). Zodat je
+je netwerk gescheiden houd. Als je dan een ip-range aan een bepaalde subnet wilt toekennen heb je te maken met een
+\textbf{subnet mask}, daarmee vertel je hoeveel bits je toekent dus \textit{192.168.0.0/28} ken je de laatste 4 bit toe
+aan je subnet ($32-28=4$). Wat neerkomt op 16 addresen, daarvan zijn er altijd 2 gereserveerd. een voor je default
+gateway (router) en een voor de broadcast (voor DHCP bijvoorbeeld). Je houd er dus 14 over om je hosts op aan te
+sluiten.
+\newline
+De internet addres toekennings methode heet: \textbf{Classless interdomain Routing (CIDR)} van oorspring had je
+namelijk subnet classes. Waavan 10.0.0.0/8 classe A was, 10.0.0.0/16 B, 10.0.0.0/24 C. Maar met deze methode heb je
+of 255 (C) addresen of 65536 (B) of 16777216 (A) Terwijl je er als organistie maar vaak 1k nodig had.
+\newline
+ISP krijgen een blok aan ipaddresen en ddres staat niet vast en je kan dus altijd een andere krijgen.
+\newlinedelen deze ook weer uit aan hun klanten. Van een locale ISP zoals Ziggo krijg
+je een \textbf{dynamic ip addres} dit a
+Wanneer jij verbinding maakt met een nieuw netwerk heb je een IP addres nodig. Die kan je krijgen van een
+\textbf{Dynamic Host Configuration Protocol (DHCP)} server, ieder netwerk heeft een of meerdere van dit soort servers
+. Je krijgt van een DHCP server een \textbf{temporary IP address} Deze heeft een lease-tijd en moet je om een
+bepaalde tijd weer vernieuwen bij je DHCP server. gelukkig gebeuren al deze dingen automatish want DHCP is een
+\textbf{zero-conf/plug-and-play} systeem.
+\newline
+Wanneer een hosts een ip-addres wilt moet hij doro een vier-stappen plan heen van DHCP, het zogenaamde \textbf{DORA}
+\begin{itemize}
+    \item \textit{DHCP server discovery} stap 1 is om de DHCP server te vinden. Dit doet een host door middel van
+een \textbf{DHCP discovery message} dit word naar ip 255.255.255.255 gestuurd, het broadcast IP. Op 255.. staat geen
+host maar is bedoelt als broadcast, iedereen in dezelfde subnet ontvangt dit bericht. In dit bericht staat zijn ID van zijn request samen met nog wat info.
+    \item \textit{DHCP server offer(s)} De DHCP server ontvangt het bericht en stuurt een broadcast terug het netwerk
+    op met een \textbf{DHCP offer message}. Hij doet een broadcast omdat de andere host nog geen IP addres heeft. In
+    dit offer staat een IP addres die hij mag gebruiken. Samen met een \textbf{lease-time} (hoelang hij dit IP addres
+    mag gebruiken)
+    \item \textit{DHCP request} De client stuurt een \textbf{DHCP request message} met het IP dat hij wilt hebben (de
+    host kan meerde offers gehad hebben van verschillende DHCP servers)
+    \item \textit{DHCP ACK} de DHCP server stuurt een \textbf{DHCP ACK message} dat alles OK is.
+\end{itemize}
+
+\subsubsection{Network Address Translation (NAT)}
+Omdat er maar 4 miljard IP addresen zijn en toch iedereen met zijn, computer, laptop, tablet en telefoon
+tegelijkertijd op het internet wilt gaan maken we gebruikt van \textbf{Network address translation (NAT)}. NATs
+worden toegepast op \textbf{private networks}. Je krijgt van Ziggo, KPN, xs4alll of elke andre ISP maar 1 IPv4 (soms
+ook een IPv6) addres. Maar je hebt ondertussen wel 20 hosts thuis staan die allemaal verbonden moeten worden. Je
+router maakt dan gebruikt van NAT, hij kens alle host binnen je netwek een ip addres toe van 192.168.0.0/16 of 10.0.0
+.0/8 dit zijn gereserveerde adderesen voor NATs. Er bestaat geen public adderesen met deze waardes. Ze bestaat dus
+alleen in je thuis netwerk. Als je een pakketje verstuurt naar een host buiten je thuis netwerk pikt je router dit op
+en veranderd de source ip en de source port naar het \textbf{public IP} en een andere port. Wat je van je ISP hebt
+gekregen. Hij slaat alle connecties op in een \textbf{NAT translation table} (source-dest ip, port) zodat hij weet welk binnen komend paktje voor welk private ip zijn. Hij vervangt dan de port nr en dest ip en stuurt het pakketje weer
+door.
+\newline
+Wanneer je deel wilt nemen in een p2p (peer-to-peer) connectie of een ander soort verbinding waar het belangrijk is
+dat je poort nummer kloppen kan een host gebruik maken van \textbf{NAT traversal} tools en UPnP die configureren je
+NAT in je router dat hij niet aan de poort nummers mag komen. En dat hij alles van port \textit{x} automatich forward
+naar een specivike host.
+Een NAT valt onder de categorie \textbf{middlebox}
+
+\subsubsection{IPv6}
+De belangrijkste veranderingen in IPv6 zijn:
+\begin{itemize}
+    \item \textit{Expanded addressing capabilities} ipv6 is 128bit inplaats van 32bit van v4. IPv6 ondersteund ook
+    \textbf{anycast address} hiermee kan je een broadcast doen naar een groep public ip addresen.
+    \item \textit{A streamlined 40-byte header} ipv6 heeft een fixed 40 byte header
+    \item \textit{flow labeling} Je kan aangeven wat voor service je datagram is. (real-time, high priority etc)
+\end{itemize}
+Een Ipv6 datagram bestaat uit de volgende onderdelen:
+\begin{itemize}
+    \item \textit{Version} 4bit, de IP versie.
+    \item \textit{Traffic class} 8bit, hier kan je een hogere priority geven aan je datagram als het real-time data
+    \item \textit{Flow label} 20bit, zoals beschreven in flow labeling
+    \item \textit{payload length} 16bit, hoeveel bytes de header+data is
+    \item \textit{Next header} welke transport layer protocol word gebruikt, zelfde als IPv4
+    \item \textit{Hop limit} zelfde las TTL in IPv4
+    \item \textit{source and desination addresses} 128bit p.s. source en destination in een apart veld.
+    \item \textit{Data} de data.
+\end{itemize}
+IPv4 vs IPv6:
+\begin{itemize}
+    \item \textit{fragmentation/reassembly} v6 bied geen fragmentation. Als de MTU bij een link ineens kleiner moet
+    word er een ICMP bericht gestuurt naar de verzender van het pakketje dat hij het opnieuw moet sturen met een
+    kleinere MTU
+    \item \textit{Header checksum} v6 heeft geen checksum omdat het in de andere layers al meer dan genoeg voorkomen.
+    \item \textit{Options} v6 heeft geen opties.
+\end{itemize}
+Wanneer je een IPv6 pakketje over het internet verstuurt is de kans groot dat hij bij een router komt die IPv6 niet
+ondersteund. De laatste router die wel v6 ondersteund stopt dan de gehele v6 datagram in een IPv4 datagram en die
+adraseert hij naar de eerste node op de route die wel v6 ondersteund. Deze router leest het pakketje dan, pakt het
+uit en verstuurt het orginele v6 pakketje alsof er niks gebeurt is. Dit process noemen we \textbf{tunneling}.
