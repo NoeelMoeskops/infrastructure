@@ -1,0 +1,33 @@
+\addtocounter{section}{1}
+\section{Security in Computer Networks}
+\subsection{What is Network Security?}
+Een veilige verbinden kan bestaan uit de volgende eigenschappen van \textbf{secure communication}
+\begin{itemize}
+    \item \textit{Confidentiality} Het bericht kan alleen worden gelezen door de ontvangen er en de verzender. Dit kan je krijgen door gebruikt te maken van \textbf{encrypted}
+    \item \textit{Message intergrity} Je wilt er zeker van zijn dat het bericht wat je ontvangt ook precies hetzelfde is wat jij hebt verstuurt.
+    \item \textit{End-point authentication} Je wilt er zeker van zijn dat de ontvanger ook echt is wie hij zecht dat hij is.
+    \item \textit{Operational security} Je wilt dat je netwerk veilig is om op te werken.
+\end{itemize}
+\subsection{Principles of Cryptography}
+Waarneer je blanko tekst versuurt staat dat bekent als \textbf{cleartext/cleartext} je kan met een \textbf{encryption algorithm} je data encrypten, dan staat het bekent als \textbf{ciphertext}
+\newline
+Om data geencrypt te versturen maak je gebruik van \textbf{keys} Als je data encrypt met een key, de data verstuurt naar een ontvanger en de ontvanger gebruikt dezelfde key om de data te decrypte noem je dit \textbf{symmetric key system}. Het probleem hiervan is dat je eerst een key moet afspreken.
+\newline
+Met \textbf{public key system} heeft iedere host 2 keys, een public en een private. Je private key deel je met
+niemand. Deze gebruik je om berichte te decrypten (of encrypten maar dan komt later). Je public key iedereen bij.
+Iemand kan dus een bericht encrypten met jou public key die kan dan alleen worden gedecrypt met jou private key.
+
+\subsubsection{Symmetric Key Cryptography}
+\textbf{Monoalphabetic cipher} is een encryptie dat je een letter door een andere letter vervangt.
+drie verschillende aanvallen op encryptie:
+\begin{itemize}
+    \item \textbf{Ciphertext-only attack} Met deze aanval heb je toegang tot de ciphertext zonder identicatie wat het
+    bericht zecht.
+    \item \textbf{Known-plaintext attack} Nu heb je de cipertext en weet je (gedeeltelijk) wat er in het bericht
+    staat, makkelijker te decrypten dus.
+    \item \textbf{Chosen-plaintext attack} Nu kan de aanvaller text incrypten opdezelfde methode als het
+    oorspronkelijke bericht.
+\end{itemize}
+\textbf{Polyalpabetic encryption} is dat je op basis van de positie van de zin de letter een andere letter maakt.
+
+\subsubsection{Public Key Encryption}
