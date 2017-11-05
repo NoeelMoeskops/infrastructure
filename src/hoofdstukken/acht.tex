@@ -31,3 +31,99 @@ drie verschillende aanvallen op encryptie:
 \textbf{Polyalpabetic encryption} is dat je op basis van de positie van de zin de letter een andere letter maakt.
 
 \subsubsection{Public Key Encryption}
+Met de public/private key methode heeft iedereen twee keys, eentje kan iedereen zien: de public key. En de anderen
+niemand, de private key. Wanneer je een bericht encrypt met iemand zijn public key kan deze alleen maar worden ge
+degript mijn zijn private key. Anderszom werkt dat dus ook. Zo kan je zeker weten dat een bericht van iemand afkomt
+als hij het met zijn private key heeft geencrypt (\textbf{end-point authentication}). En als je een bericht met iemand
+z'n public key encrypt berijk je \textbf{confidentiality}. Omdat je alleen het bericht kan lezen met zijn private key.
+
+\subsection{Message Intergrity and Digital Signatures}
+Met de public key methode kan je ervoor zorgen dat je confidentiality en end-point authentication krijgt. We missen
+echter nog \textbf{message integrity}.
+
+\subsubsection{Cryptographic Hash Functions}
+Met hash functions kan je je bericht hashen en dan het bericht samen met de hash meesturen. De ontvangen voert dan
+dezelfde hash functie uit op het bericht en vergelijkt die dan met de meegestuurde hash.
+
+\subsubsection{Message Authentication Code}
+Om ervoor te zorgen dat niemand de hash kan namaken moet je gebruik maken van een \textbf{Authentication key} dit is
+een kleine string aan bits die je bij je bericht doet en daar vervolgends een hash van maakt. Anderen mensen weten
+die \textit{secret} code niet.
+\newline
+Een \textbf{message authentication code (MAC)} is het bericht + secret in een hash (\textit{H(b+s)}). Er zijn
+verschillende standaarden voor bijvoorbeeld \textbf{HMAC} wat MD5 of SHA-1 gebruikt.
+
+\subsubsection{Digital Signatures}
+Als je een bericht encrypt met je private-key heeft dat bericht dus een \textbf{digital siganture} omdat je kan
+controleren wie het heeft geschreven door het bericht te decrypten met je public key.
+\newline
+Om te controleren of een public wel echt van een persoon A is en niet van iemand anders bestaat er \textbf{public key
+certification}. Dat doe je bij een \textbf{Certification Authority (CA)} deze houd bij welke persoon/organisatie bij
+welke key hoort.
+
+\addtocounter{subsection}{2}
+\subsection{Securing TCP Connections: SSL}
+Omdat er geen Security layer bestaat in het IP/TCP model, maar hier wel veel vraag naar is, is er een soort van
+virtuele laag gemaakt op de applicatie layer voor tcp. Dit staat bekent als \textbf{Secure Sockets Layers (SSL)} en
+bied services als confidentiality, Message intergrity en end-point authentication. Een aangepast versie van SSL v3
+heet \textbf{Transport Layer Security (TLS)}
+
+\subsection{Network-Layer Security: IPsec and Virtual Private Networks}
+De IP security protocol beterbekent als \textbf{IPsec} is een beveiligings protocol op de netwerk laag. Al je
+datagrammen zijn dus beschermt als je IPsec gebruikt. IPsec word ook gebruikt om \textbf{virtual private networks
+(VPNs)} te maken.
+\subsubsection{IPsec and Virtual Private Networks (VPNs)}
+IPsec gaat pas in als het langs een router naar de buiten wereld gaat. In je interne netwerk zijn je datagrammen dus
+niet encrypted. Je router moet ook IPsec ondersteunen anders werkt het zoiezo niet.
+\newline
+Wanneer je een \textbf{private nerwork} wilt opzetten met iemand die buiten je LAN zit gebruik je ook IPsec. Ookal
+kan de router van de andere persoon er evniks mee. Het word dan gewoon door gestuurt naar zijn laptop en die decrypt
+het IPsec datagram met software op de applicatie laag.
+
+\addtocounter{subsection}{1}
+\subsection{Operational Security: Firewalls and Intrusion Detection Systems}
+\subsubsection{Firewalls}
+een \textbf{firewall} is een stuk hardware en software wat je interne prive netwerk isoleert van de buiten wereld.
+De drie doelen van een firewall zijn:
+\begin{enumerate}
+    \item \textit{All traffic from outside to inside, and vice versa, passes through the firewall}
+    \item \textit{Only authorized traffic, as defined bt the local security policy, will be allowed to pass}
+    \item \textit{The firewall itself is immume to penetration}
+\end{enumerate}
+Firewall kan je onderverdelen in drie categorieën:
+\begin{itemize}
+    \item \textbf{Traditional packet filters} iedere pakket die het netwerk binnen komt of verlaat word gescreened
+    op: IP source-dest, protocol: TCP, UDP, ICMP, TCP ACK-SYN flag, etc. Op basis daarvan kan de firewall beslissen om
+    pakketjes door te laten.
+    \item \textbf{stateful packet filters} wanneer je een nieuwe verbinding maakt word dat opgeslagen in je de
+    connection table van je firewall. Zodat hij kan zien of een binnen komende connectie van een openstaande
+    verbinding is of dat hij ineens een host binnen het netwerk wilt bereiken die eigenlijk helemaal geen server is.
+    \item \textbf{Application Gateway} Deze kijkt naar de data van het pakketje en maakt op basis daarvan
+    beslissingen. Zo kan hij services als TELNET toestaan voor bepaalde gebruikers (ip addressen).
+\end{itemize}
+
+\subsubsection{Intrusion Detection Systems}
+Een firewall is niet altijd genoeg om kwaadaardige pakketjes tegen te houden. Daarvoor kijkt de firewall niet (lang)
+genoeg naar de detail van de data van het pakketje. Daarvoor hebben we \textbf{deep packet inspection}. Daarvan heb
+je twee smaken, bijde werken op application-layer niveau en staan los van de router/firewall.
+\begin{itemize}
+    \item \textbf{intrusion detection system (IDS)} Deze inspecteerd alle pakketjes op het netwerk en geeft een
+    signaal als het iets raars tegenkomt.
+    \item \textbf{intrusion prevention system (IPS)} De inspecteerd en blokeerd als hij iets abnormaals tegenkomt.
+\end{itemize}
+Een IDS/IPS kan op twee verschillende manieren werken:
+\begin{itemize}
+    \item \textbf{signature-based system} De IDS/IPS inspecteerd pakketje op basis van bekende vijandige pakketjes
+    signatures, hij kijkt dan naar: protocol, data, poort, groote etc. En vergelijkt dat met een database.
+    \item \textbf{anomaly-based system} Met deze methode kijkt de IDS/IPS naar het netwerk of er iets ongebruikelijks
+    plaats vind. Bijvoorbeeld dat er ineens om 3 uur s'nachts een FTP verbinding word geopent waar 10gb aan data
+    doorheen gaat. Of dat een host die normaal alleen e-mails verstuurt nu ineens een remote-desktop verbinden buiten
+    het netwerk heeft opgezet.
+\end{itemize}
+Snort is een IDS/IPS programma. Je wilt er vaak meerdere in je netwerk hebben op verschillende punten om zo ook
+interne communicatie te monitoren.
+\newline
+Een \textbf{demilitarized zone (DMZ)} is een gebied in je netwerk die afgeschermt is van de rest van je netwerk. Dit
+word vaak gebruikt om servers te hosten. Daar gebruik je dan een aparte firwall en/of router voor. Je kan dan
+makkelijk anderen regels per gebied opzetten. En als een hacker in de DMZ komt kan hij niet meteen bij de rest van
+het netwerk en visaversa.
